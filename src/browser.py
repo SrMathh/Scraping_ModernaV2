@@ -37,9 +37,9 @@ class Browser:
                 profile_dir = tempfile.mkdtemp(prefix="chrome_profile_", dir="/tmp")
                 options.add_argument(f"--user-data-dir={profile_dir}")
 
-                extension_dir = os.path.join(os.getcwd(), "extension") 
+                #extension_dir = os.path.join(os.getcwd(), "extension") 
 
-                options.add_argument(f"--load-extension={extension_dir}")  # Carrega a extensão
+                #options.add_argument(f"--load-extension={extension_dir}")  # Carrega a extensão
 
                 # Define opções para melhorar a execução do Selenium
                 options.add_argument("--start-maximized")  

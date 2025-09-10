@@ -1,0 +1,8 @@
+mode: "range"          # all | range | scheduled
+
+range:
+  start: "2025-06-11"  # AAAA-MM-DD
+  end:   "2025-06-01"
+
+schedule:
+  every: "30m"        # 30m, 2h, 24h…

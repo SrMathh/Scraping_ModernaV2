@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo de Scraping</title>
+</head>
+<body style="margin:0; padding:0; background-color:#f5f5f5; font-family:Arial,sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+        <tr><td align="center" style="padding:20px 0;">
+            <table width="600" cellpadding="0" cellspacing="0" style="background:#fff; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.1);">
+                
+                <!-- Header -->
+                <tr><td style="background:linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding:30px; text-align:center; border-radius:8px 8px 0 0;">
+                    <h1 style="color:#fff; font-size:28px; margin:0; font-weight:300;">📊 Resumo de Scraping</h1>
+                    <p style="color:rgba(255,255,255,0.8); margin:10px 0 0; font-size:16px;">Relatório Consolidado</p>
+                </td></tr>
+                
+                <!-- Info Section -->
+                <tr><td style="padding:30px;">
+                    <div style="background:#f8f9fa; padding:20px; border-radius:6px; margin-bottom:30px;">
+                        <p style="margin:0 0 10px; font-size:14px; color:#666;"><strong style="color:#333;">🕐 Início:</strong> {{ start_dt }}</p>
+                        <p style="margin:0; font-size:14px; color:#666;"><strong style="color:#333;">⏱️ Duração:</strong> {{ duration }}</p>
+                    </div>
+
+                    <!-- Summary Cards -->
+                    <div style="margin-bottom:30px;">
+                        <table width="100%" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td width="33%" style="padding-right:10px;">
+                                    <div style="background:#e8f5e8; padding:20px; border-radius:6px; text-align:center; border-left:4px solid #28a745;">
+                                        <div style="font-size:24px; font-weight:bold; color:#28a745; margin-bottom:5px;">{{ data.totals.captured }}</div>
+                                        <div style="font-size:12px; color:#666;">Processados</div>
+                                    </div>
+                                </td>
+                                <td width="33%" style="padding:0 5px;">
+                                    <div style="background:#fff3cd; padding:20px; border-radius:6px; text-align:center; border-left:4px solid #ffc107;">
+                                        <div style="font-size:24px; font-weight:bold; color:#ffc107; margin-bottom:5px;">{{ data.totals.not_found }}</div>
+                                        <div style="font-size:12px; color:#666;">Não Encontrados</div>
+                                    </div>
+                                </td>
+                                <td width="33%" style="padding-left:10px;">
+                                    <div style="background:#f8d7da; padding:20px; border-radius:6px; text-align:center; border-left:4px solid #dc3545;">
+                                        <div style="font-size:24px; font-weight:bold; color:#dc3545; margin-bottom:5px;">{{ data.totals.errors }}</div>
+                                        <div style="font-size:12px; color:#666;">Erros</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Part 1 Section -->
+                    {% if data.part1.captured or data.part1.errors %}
+                    <div style="margin-bottom:30px;">
+                        <h2 style="color:#333; font-size:20px; margin-bottom:15px; padding-bottom:10px; border-bottom:2px solid #eee;">
+                            Pacientes Processados
+                        </h2>
+                        
+                        {% if data.part1.captured %}
+                        <h3 style="color:#28a745; font-size:16px; margin-bottom:10px;">✅ Processados ({{ data.part1.captured|length }})</h3>
+                        <div style="background:#f8f9fa; border-radius:6px; overflow:hidden; margin-bottom:20px;">
+                            <table width="100%" cellpadding="12" cellspacing="0" style="font-size:14px;">
+                                <thead>
+                                    <tr style="background:#e9ecef;">
+                                        <th style="text-align:left; font-weight:600; color:#495057;">ID</th>
+                                        <th style="text-align:left; font-weight:600; color:#495057;">Nome</th>
+                                        <th style="text-align:left; font-weight:600; color:#495057;">Data do Exame</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for p in data.part1.captured %}
+                                    <tr style="border-bottom:1px solid #dee2e6;">
+                                        <td style="color:#495057;">{{ p.id }}</td>
+                                        <td style="color:#495057;">{{ p.name }}</td>
+                                        <td style="color:#495057;">{{ p.exam_date }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% endif %}
+
+                        {% if data.part1.errors %}
+                        <h3 style="color:#dc3545; font-size:16px; margin-bottom:10px;">⚠️ Erros ({{ data.part1.errors|length }})</h3>
+                        <div style="background:#f8d7da; padding:15px; border-radius:6px; margin-bottom:20px;">
+                            <ul style="margin:0; padding-left:20px; color:#721c24;">
+                                {% for err in data.part1.errors %}
+                                <li style="margin-bottom:5px;">{{ err }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    <!-- Part 2 Section -->
+                    {% if data.part2.captured or data.part2.errors %}
+                    <div style="margin-bottom:30px;">
+                        <h2 style="color:#333; font-size:20px; margin-bottom:15px; padding-bottom:10px; border-bottom:2px solid #eee;">
+                            Pacientes Processados apos Reinício
+                        </h2>
+                        
+                        {% if data.part2.captured %}
+                        <h3 style="color:#28a745; font-size:16px; margin-bottom:10px;">✅ Processados ({{ data.part2.captured|length }})</h3>
+                        <div style="background:#f8f9fa; border-radius:6px; overflow:hidden; margin-bottom:20px;">
+                            <table width="100%" cellpadding="12" cellspacing="0" style="font-size:14px;">
+                                <thead>
+                                    <tr style="background:#e9ecef;">
+                                        <th style="text-align:left; font-weight:600; color:#495057;">ID</th>
+                                        <th style="text-align:left; font-weight:600; color:#495057;">Nome</th>
+                                        <th style="text-align:left; font-weight:600; color:#495057;">Data do Exame</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for p in data.part2.captured %}
+                                    <tr style="border-bottom:1px solid #dee2e6;">
+                                        <td style="color:#495057;">{{ p.id }}</td>
+                                        <td style="color:#495057;">{{ p.name }}</td>
+                                        <td style="color:#495057;">{{ p.exam_date }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% endif %}
+
+                        {% if data.part2.errors %}
+                        <h3 style="color:#dc3545; font-size:16px; margin-bottom:10px;">⚠️ Erros ({{ data.part2.errors|length }})</h3>
+                        <div style="background:#f8d7da; padding:15px; border-radius:6px; margin-bottom:20px;">
+                            <ul style="margin:0; padding-left:20px; color:#721c24;">
+                                {% for err in data.part2.errors %}
+                                <li style="margin-bottom:5px;">{{ err }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                </td></tr>
+                
+                <!-- Footer -->
+                <tr><td style="background:#f8f9fa; padding:20px; text-align:center; border-radius:0 0 8px 8px; border-top:1px solid #dee2e6;">
+                    <p style="font-size:12px; color:#6c757d; margin:0;">
+                        Gerado em {{ start_dt }}
+                    </p>
+                </td></tr>
+                
+            </table>
+        </td></tr>
+    </table>
+</body>
+</html>

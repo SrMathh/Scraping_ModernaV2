@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<body style="margin:0; padding:0;">
+  <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+    <tr><td align="center">
+      <table width="600" cellpadding="20" cellspacing="0" style="border:1px solid #ddd; font-family:Arial,sans-serif;">
+        <tr><td>
+          <h1 style="font-size:24px; margin-bottom:20px; text-align:center;">Resumo de Scraping</h1>
+
+          <p style="margin:0 0 10px;"><strong>Início:</strong> {{ start_dt }}</p>
+          <p style="margin:0 0 20px;"><strong>Duração:</strong> {{ duration }}</p>
+          <h2>✅ Pacientes Processados</h2>
+          {% if captured %}
+          <table width="100%" cellpadding="5" cellspacing="0" role="presentation">
+            <tr>
+              <th>ID</th><th>Nome</th><th>Data do Exame</th>
+            </tr>
+            {% for p in captured %}
+            <tr>
+              <td>{{ p.id }}</td>
+              <td>{{ p.name }}</td>
+              <td>{{ p.exam_date }}</td>
+            </tr>
+            {% endfor %}
+          </table>
+          {% else %}
+            <p style="margin:0 0 20px;">(nenhum ID processado)</p>
+          {% endif %}
+          <h2 style="color:#c0392b; margin-bottom:10px;">⚠️ Erros Encontrados</h2>
+          {% if errors %}
+            <ul style="padding-left:20px; margin-top:0; margin-bottom:20px;">
+              {% for err in errors %}
+                <li style="color:#c0392b; margin-bottom:5px;">{{ err }}</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p style="color:#c0392b; margin:0 0 20px;">(não houve erros)</p>
+          {% endif %}
+
+          <hr style="border:none; border-top:1px solid #eee; margin:20px 0;">
+          <p style="font-size:12px; color:#999; margin:0; text-align:center;">
+            Enviado por MatheusQa • Gerado em {{ start_dt }}
+          </p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>

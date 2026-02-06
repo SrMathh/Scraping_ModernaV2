@@ -46,6 +46,28 @@ class Scraper:
             database.registrar_paciente(id_atual, 'erro_geral')
             return False, None
 
+    def configurar_filtros_totais(self):
+        try:
+            # 1. Localiza todos os containers de filtros Chosen na página
+            filtros = self.driver.find_elements(By.CLASS_NAME, "chosen-container")
+
+            for filtro in filtros:
+                # Verifica o texto atual do filtro
+                texto_atual = filtro.find_element(By.CSS_SELECTOR, "a.chosen-single span").text
+
+                if "(Todos)" not in texto_atual:
+                    print(f"Configurando filtro para '(Todos)'...")
+                    filtro.click()
+                    time.sleep(0.5)
+                    opcao_todos = filtro.find_element(By.XPATH, ".//li[contains(text(), '(Todos)')]")
+                    opcao_todos.click()
+                    time.sleep(0.5)
+                else:
+                    print("Filtro já está configurado como '(Todos)'.")
+
+        except Exception as e:
+            print(f"Erro ao configurar filtros: {e}")
+
     def _executar_fase(self, direcao, id_inicial, id_limite):
         """
         Executa uma fase de scraping a partir de um ID inicial específico.
@@ -76,6 +98,7 @@ class Scraper:
 
             if eh_valido:
                 print(f">>> Sucesso! Paciente '{nome_paciente}'. Registrando e extraindo dados...")
+                self.configurar_filtros_totais()
                 self.scraping_extension(str(id_atual), nome_paciente, None, None)
                 database.registrar_paciente(id_atual, 'sucesso', nome_paciente)
             else:

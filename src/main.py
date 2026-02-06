@@ -25,7 +25,12 @@ def execute_scraping():
         if browser.errors:
             summary["errors"].extend(browser.errors)
             raise Exception("Erro durante o login.")
-
+        
+        browser.ready_for_scraping()
+        if browser.errors:
+            summary["errors"].extend(browser.errors)
+            raise Exception("Erro durante a preparação para scraping.")
+        
         scraper = Scraper(browser.driver)
         scraper.iniciar_scraping()
         

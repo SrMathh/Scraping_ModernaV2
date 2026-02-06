@@ -1,0 +1,96 @@
+{
+  "description": "Extensão de integração com Vöiston",
+  "version": "1.0.5.654",
+  "manifest_version": 3,
+  "key": "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC8uexKtol+n0rLhL5sA/eHg12jFj4v/niYl63F6eG0aVSAAt3n0zYGZAOnkXj/hTMF11UZLJAJmhx4Dxhhr0GkY4E8gGcvKgvc17Hj31Ia33oT8WDW22TeCHKYijFytMCh9S++3arK5L5VuH9kHXLlpiuafpXMgJZdiRQQzHTR4HhiqnOElVPDH6jMnp5eGbEt3IX+Z/s50kA1S+VYkw5mHHyfuIqUtyY84tgWLddV+ivKUqsyOcQCiSqbH6H3w75ekNZxBLmpmsgI0MMAPbPD2JmCTeSI8XVLOl7LhbdrhuSPyfM9zIOGeAqAYKSeVgrx85zvf6sULHB/QILpl2M5AgMBAAECggEAAV3sst3U68XblNMb+KGkDqc0677Nfyt9/seadUSBuKd1T+K1bhMUNmz4Wc5ZQgCE+MCGgpgqsuca2FkY+XF7guVK76qTv2kJN6BC+ZOJ1LKpqltP3ZPZNy0jJ1euOVZ1zrZ9PLSo+ASQHFl/ErU5Ons+9ZoqcOtoK2VCxUcLJuSmHBnXtHFPc0hNq5sjJr55yCqREftjsMY8WXPKxP+WlXtZyheIUM7MI2OR6eyhGi1yeMra38JgwpTPn6AbYyrl3wrwfBAoDQHzNbZuqAyCU5sgVEJf5KgMCcz0mWPEUwaGmEBjEyIPSeFORvQXaMdENRQZzRBG70QZNYPSHdCiwQKBgQD0rw1r43eyYuy7M6uqdaEJNssX26P5CKWxDiGfhta4Sk6P2NkAC6HdZMC2e/rL11JArr4brGvNzwIfr6jHSxxwW6GTaWSVMD/CXmRN4/txNXfmdSEyRRKBD8Po2u6dktvimdtvN4CFdmOACBfoUWYdL/1zu99rdO3UaRap5M4qEwKBgQDFdFuyQxXHKx5HiLF3NUG4hIsCsZ5usCKa06xPddt7pNQSHHPQ0ujovmcudZeGYqyaFGSPjQoWCyEt65wPj2BFxhfJUhD624MsrdpH6DbpU1jTBfaueR3cOX0TmKmXnwp+TjYR8kTu/oBSPXqEdevNNkouU5V2hSjHzPqV+qwnAwKBgQDKtxzPfaz1RbALiEt49etsztCD+5xl/hwIDEUe/X93P1jHJEjkGL8JxSdECINHziR/IkaudrL5179SsR2Lv1bYX5IFpxOF5mtshPdk8LSonjuv2uqd00v5US5mBLwcIEe7/OwnwDviVqsor4vfFVEcbV32PHhldoJzsHzuVHnZsQKBgDc87AIcnlUPjPL6HJt6vJ4ABluEkQvqHmQt30CDehlG7UT7zLKYriueSINIxlED/cFE/zThgfbUuj18cjYwKACdAD6DxNhI3JN9N1lybxorBOhT/MSmgWIAeysmRBt0lJztCFdQ7VPmwsM/C61Ox96q12nKXD/B1LzAbUHT1KE9AoGBAMnsj10myEJ4uD8uBDi458hc3eqNxDKN1APoM537BYNU7AgYb51HEutee2MBAGHJY42I8xUxEfe2oKfdd1lpXVpiKE2qCLAu8b02R3pIQvGSAfO6Q/saxfAtn29YLT5AgvdloFuuLTzVKbbwUNtDBFKMj1X04g9iclyUpPsHqgMp",
+  "name": "Vöiston",
+  "permissions": [
+    "tabs",
+    "storage"
+  ],
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Alt+V"
+      },
+      "description": "Ativar Vöiston"
+    }
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Vöiston",
+    "default_icon": {
+      "32": "assets/img/logo/voiston_icon_32.png",
+      "72": "assets/img/logo/voiston_icon_64.png",
+      "128": "assets/img/logo/voiston_icon_128.png",
+      "512": "assets/img/logo/voiston_icon_512.png"
+    }
+  },
+  "icons": {
+    "32": "assets/img/logo/voiston_icon_32.png",
+    "72": "assets/img/logo/voiston_icon_64.png",
+    "128": "assets/img/logo/voiston_icon_128.png",
+    "512": "assets/img/logo/voiston_icon_512.png"
+  },
+  "background": {
+    "service_worker": "serviceWorker.js"
+  },
+  "externally_connectable": {
+    "matches": [
+      "*://*.voiston.ai/*",
+      "*://localhost/*"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://calc.apacrs.org/TrueKToricTK_preview/*",
+        "https://calc.apacrs.org/toric_calculator20/*",
+        "https://brascrs.com.br/area-do-associado/central-de-calculadoras-brascrs/double-k/",
+        "https://iolcalculator.escrs.org/",
+        "https://brascrs.com.br/area-do-associado/central-de-calculadoras-brascrs/multiformula-brascrs/"
+      ],
+      "js": [
+        "iolScript.js"
+      ],
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "*://*.emedclin.com.br/*",
+        "*://*.sivoe.med.br/*",
+        "*://*.iclinic.com.br/*",
+        "*://iclin.com.br/*",
+        "*://*.prontmed.com/*",
+        "*://*.eyeimages.com.br/*",
+        "*://*.fleury.com.br/*",
+        "https://exames.einstein.br/*",
+        "*://*.cdb.com.br/*",
+        "*://zcloud.lifeone.life/*",
+        "*://lifeone.medlynx.com.br/*",
+        "*://*.feegow.com/*",
+        "*://*.clinicanakano.modernanet.com.br/*",
+        "*://horp.modernanet.com.br/*"
+      ],
+      "js": [
+        "contentScript.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "*.png",
+        "*.svg",
+        "*.ttf"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}

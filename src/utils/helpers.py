@@ -7,6 +7,9 @@ import sys
 from datetime import datetime, date
 from typing import Optional, Union
 import datetime
+import pyautogui
+import os
+import time
 
 # Gera o nome do arquivo de log
 log_filename = "testeAutomatico.log"
@@ -313,3 +316,33 @@ def parse_date_safe(value: Optional[Union[str, datetime.datetime, datetime.date]
                 continue
     # Se chegou aqui, não conseguiu converter
     return None
+
+def click_image(image_path, confidence=0.8, timeout=10):
+    
+    # Se o caminho for relativo, torna absoluto baseado no diretório /app
+    if not os.path.isabs(image_path):
+        image_path = os.path.join('/app', image_path)
+    
+    print(f"Procurando imagem: {image_path}")
+    
+    # Verifica se o arquivo existe
+    if not os.path.exists(image_path):
+        print(f"ERRO: Arquivo de imagem não encontrado: {image_path}")
+        return False
+    
+    # Tenta localizar a imagem na tela com retry
+    start_time = time.time()
+    while time.time() - start_time < timeout:
+        try:
+            location = pyautogui.locateCenterOnScreen(image_path, confidence=confidence)
+            if location is not None:
+                print(f"Imagem encontrada em: {location}")
+                pyautogui.click(location)
+                return True
+        except Exception as e:
+            print(f"Erro ao procurar imagem: {e}")
+        
+        time.sleep(0.5)
+    
+    print(f"Elemento não encontrado após {timeout}s: {image_path}")
+    return False
